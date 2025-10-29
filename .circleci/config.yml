@@ -1,0 +1,51 @@
+version: 2.1
+
+jobs:
+  build-macos:
+    macos:
+      xcode: "15.4.0"  # macOS Sonoma image with Python preinstalled
+    environment:
+      PIP_DISABLE_PIP_VERSION_CHECK: "1"
+    steps:
+      - checkout
+      - run:
+          name: Set up Python 3.10
+          command: |
+            PY_VER=$(python3 -V | awk '{print $2}')
+            echo "System Python: ${PY_VER}"
+            python3 -m pip install --upgrade pip
+            python3 -m pip install pyinstaller -r requirements.txt
+      - run:
+          name: Build folder with PyInstaller (onedir)
+          command: |
+            pyinstaller --onedir \
+              --name "RekordboxGenerator" \
+              --hidden-import tkinter \
+              --add-data "requirements.txt:." \
+              rekordbox_generator.py
+      - run:
+          name: Add mac launcher and package folder
+          command: |
+            mkdir -p release
+            if [ -d "dist/RekordboxGenerator" ]; then
+              cat > dist/RekordboxGenerator/RekordboxGenerator.command <<'EOF'
+#!/bin/bash
+DIR="$(cd "$(dirname "$0")" && pwd)"
+"$DIR/./RekordboxGenerator"
+EOF
+              chmod +x dist/RekordboxGenerator/RekordboxGenerator.command
+              ditto -c -k --sequesterRsrc --keepParent "dist/RekordboxGenerator" "release/RekordboxGenerator-mac.zip"
+            else
+              echo "Build folder dist/RekordboxGenerator not found" >&2
+              exit 1
+            fi
+      - store_artifacts:
+          path: release/RekordboxGenerator-mac.zip
+          destination: RekordboxGenerator-mac.zip
+
+workflows:
+  build:
+    jobs:
+      - build-macos
+
+
