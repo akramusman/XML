@@ -20,20 +20,16 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.10'
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt pyinstaller
 
-      - name: Build app with PyInstaller
+      - name: Build app with PyInstaller (spec)
         run: |
-          pyinstaller --windowed --onefile \
-            --name "RekordboxGenerator" \
-            --icon NONE \
-            --add-data "requirements.txt:." \
-            rekordbox_generator.py
+          pyinstaller --noconfirm RekordboxGenerator.spec
 
       - name: Package .app for distribution
         run: |
