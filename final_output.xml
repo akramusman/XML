@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DJ_PLAYLISTS Version="1.0.0">
+  <PRODUCT Name="rekordbox" Version="7.2.3" Company="AlphaTheta"/>
+  <COLLECTION Entries="1">
+    <TRACK TrackID="1" Name="Acoustic Breeze" Artist="Acoustic" Composer="Benjamin Tissot" Label="Bensound" Genre="Acoustic" Year="2020" Mix="Original Mix" Comments="Test import track for Rekordbox XML" Grouping="" DiscNumber="0" TrackNumber="0" AverageBpm="0.00" DateAdded="" SampleRate="44100" PlayCount="0" Rating="0" Tonality="" Kind="MP3 File" Size="2200868" TotalTime="157" BitRate="112000" Location="file://localhost/C:/Users/DELL/XML/Acoustic Breeze.mp3"/>
+  </COLLECTION>
+</DJ_PLAYLISTS>
